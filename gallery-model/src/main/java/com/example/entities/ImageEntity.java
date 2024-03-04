@@ -1,9 +1,8 @@
-package com.example;
+package com.example.entities;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,12 +16,12 @@ import java.util.Set;
 public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
+    @Column(name = "id")
     private Long id;
 
     @Lob
     @Column(name = "data")
-    private Byte[] imageData;
+    private byte[] imageData;
 
     @Column(name = "name")
     private String name;
@@ -30,8 +29,8 @@ public class ImageEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "submit_date")
-    private LocalDateTime date;
+    @Column(name = "upload_date")
+    private LocalDateTime uploadDate;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "image_hashtag",

@@ -1,5 +1,8 @@
-package com.example;
+package com.example.controller;
 
+import com.example.GalleryService;
+import com.example.entities.HashtagEntity;
+import com.example.entities.ImageEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

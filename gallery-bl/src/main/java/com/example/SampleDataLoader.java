@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.entities.HashtagEntity;
+import com.example.entities.ImageEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
@@ -21,7 +23,7 @@ public class SampleDataLoader {
         ImageEntity image3 = new ImageEntity(null, null, "Image 3", "Description 1", LocalDateTime.now(), hashtags);
 
         galleryService.saveImage(image1);
-        galleryService.saveImage(image1);
+        //galleryService.saveImage(image1);
         galleryService.saveImage(image2);
         galleryService.saveImage(image3);
 

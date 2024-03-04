@@ -1,37 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" ?>
-<?script type="text/javascript" src="/js/bootstrap.min.js"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul" ?>
+<?page complete="true"?>
 
-<zk>
-    <window>
-        <label value="Hello ZK!" />
-    </window>
-    <div class="container text-center">
-        <div class="row
-            justify-content-md-center">
-            <div class="col"
-                 style="border:1px solid red;">
-                1 of 3
-            </div>
-            <div class="col-6"
-                 style="border:1px solid red;">
-                2 of 3 (wider)
-            </div>
-            <div class="col"
-                 style="border:1px solid red;">
-                3 of 3
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                1 of 3
-            </div>
-            <div class="col-5">
-                2 of 3 (wider)
-            </div>
-            <div class="col">
-                3 of 3
-            </div>
-        </div>
-    </div>
+<zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
+    <xh:div self="@{define(pageContent)}" viewModel="@id('vm') @init('com.example.vm.PageVm')">
+        <zul:window>
+            <!-- Your content goes here -->
+            <zul:vbox>
+                <zul:label value="Upload Window" />
+
+            </zul:vbox>
+        </zul:window>
+    </xh:div>
 </zk>

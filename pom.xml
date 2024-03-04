@@ -26,6 +26,7 @@
 		<java.version>1.8</java.version>
 		<spring-boot.version>2.4.4</spring-boot.version>
 		<zk.version>8.6.0.1</zk.version>
+		<db.version>42.6.0</db.version>
 	</properties>
 
 	<repositories>
@@ -88,6 +89,12 @@
 				<groupId>org.zkoss.zk</groupId>
 				<artifactId>zkex</artifactId>
 				<version>${zk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${db.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

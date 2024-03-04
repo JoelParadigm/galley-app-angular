@@ -1,6 +1,6 @@
 package com.example.repo;
 
-import com.example.ImageEntity;
+import com.example.entities.ImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

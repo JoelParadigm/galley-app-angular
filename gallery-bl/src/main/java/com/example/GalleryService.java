@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.entities.HashtagEntity;
+import com.example.entities.ImageEntity;
 import com.example.repo.HashtagRepository;
 import com.example.repo.ImageRepository;
 import lombok.AllArgsConstructor;

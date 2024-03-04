@@ -1,4 +1,4 @@
-package com.example;
+package com.example.entities;
 
 import lombok.*;
 
@@ -16,9 +16,9 @@ public class HashtagEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "hashtag_id")
+    @Column(name = "id")
     private Long id;
-    @Column(name = "hashtag_name")
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "hashtags")
