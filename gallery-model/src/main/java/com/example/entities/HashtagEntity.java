@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Table(name = "Hashtags")
-@Entity(name = "Hashtags")
+@Table(name = "Hashtag")
+@Entity(name = "Hashtag")
 @AllArgsConstructor
 @NoArgsConstructor
 public class HashtagEntity {

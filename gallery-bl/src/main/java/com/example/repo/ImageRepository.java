@@ -15,6 +15,6 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
     List<ImageEntity> findByDescriptionContaining(String keyword);
 
-    @Query("SELECT i FROM Images i JOIN i.hashtags h WHERE h.name = :hashtagName")
+    @Query("SELECT i FROM Image i JOIN i.hashtags h WHERE h.name = :hashtagName")
     List<ImageEntity> findByHashtagName(@Param("hashtagName") String hashtagName);
 }

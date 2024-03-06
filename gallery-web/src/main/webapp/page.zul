@@ -4,11 +4,23 @@
 <zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
     <xh:div self="@{define(pageContent)}" viewModel="@id('vm') @init('com.example.vm.PageVm')">
         <zul:window>
-            <!-- Your content goes here -->
-            <zul:vbox>
-                <zul:label value="Upload Window" />
+            <zul:vbox style="border: 1px solid #ccc; padding: 10px;">
+                <hbox>
+                    <zul:label id="selectedLabel" value="@bind(vm.selectedLabelText)" />
+                    <zul:label id="filenameLabel" value="@bind(vm.filenameLabelText)" />
+                    <zul:label id="sizeLabel" value="@bind(vm.sizeLabelText)" />
+                </hbox>
+                <zul:hbox>
+                    <zul:label value="Upload Image:" />
+                    <zul:image id="uploadImg" content="@load(vm.uploadedImage)" />
+                    <zul:fileupload id="uploadBtn" onUpload="@command('uploadImage')" />
+                </zul:hbox>
 
             </zul:vbox>
+            <zul:hbox>
+                <zul:button label="Upload" onClick="@command('upload')" />
+                <zul:button label="Cancel" onClick="@command('cancel')" />
+            </zul:hbox>
         </zul:window>
     </xh:div>
 </zk>

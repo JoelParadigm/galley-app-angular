@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Table(name = "Images")
-@Entity(name = "Images")
+@Table(name = "Image")
+@Entity(name = "Image")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImageEntity {
@@ -19,8 +19,7 @@ public class ImageEntity {
     @Column(name = "id")
     private Long id;
 
-    @Lob
-    @Column(name = "data")
+    @Column(name = "image", columnDefinition = "bytea")
     private byte[] imageData;
 
     @Column(name = "name")
@@ -29,15 +28,14 @@ public class ImageEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "upload_date")
+    @Column(name = "submit_date")
     private LocalDateTime uploadDate;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "image_hashtag",
+    @JoinTable(name = "images_hashtags",
             joinColumns = @JoinColumn(name = "image_id"),
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private Set<HashtagEntity> hashtags = new HashSet<>();
-
 
     public void addHashtag(HashtagEntity hashtag) {
         this.hashtags.add(hashtag);

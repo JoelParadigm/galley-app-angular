@@ -1,0 +1,5 @@
+/* styles.css */
+
+.navbar-nav .nav-item.dropdown > a:after {
+    content: none; /* Remove the drop-down indicator */
+}

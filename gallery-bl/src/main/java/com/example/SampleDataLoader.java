@@ -22,10 +22,10 @@ public class SampleDataLoader {
         ImageEntity image2 = new ImageEntity(null, null, "Image 2", "Description 1", LocalDateTime.now(), hashtags);
         ImageEntity image3 = new ImageEntity(null, null, "Image 3", "Description 1", LocalDateTime.now(), hashtags);
 
-        galleryService.saveImage(image1);
         //galleryService.saveImage(image1);
-        galleryService.saveImage(image2);
-        galleryService.saveImage(image3);
+        //galleryService.saveImage(image1);
+        //galleryService.saveImage(image2);
+        //galleryService.saveImage(image3);
 
     }
 }
