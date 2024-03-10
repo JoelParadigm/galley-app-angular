@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface HashtagRepository extends JpaRepository<HashtagEntity, Long> {
     List<HashtagEntity> findByName(String tagName);
+
+    List<HashtagEntity> findByNameIn(List<String> names);
 }

@@ -6,16 +6,37 @@
         <zul:window>
             <zul:vbox style="border: 1px solid #ccc; padding: 10px;">
                 <hbox>
-                    <zul:label id="selectedLabel" value="@bind(vm.selectedLabelText)" />
-                    <zul:label id="filenameLabel" value="@bind(vm.filenameLabelText)" />
-                    <zul:label id="sizeLabel" value="@bind(vm.sizeLabelText)" />
+                    <zul:label id="selectedLabel" value="@bind(vm.selectedLabelText)" multiline="true"/>
+                    <zul:label id="filenameLabel" value="@bind(vm.filenameLabelText)" multiline="true"/>
+                    <zul:label id="sizeLabel" value="@bind(vm.sizeLabelText)" multiline="true"/>
                 </hbox>
+                <xh:div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                    <zul:textbox value="@bind(vm.pictureTitle)" placeholder="The title for your picture" maxlength="100"/>
+                    <zul:label value = "*auto-generated-title:ON" style="color: darkgray;"/>
+                </xh:div>
                 <zul:hbox>
-                    <zul:label value="Upload Image:" />
-                    <zul:image id="uploadImg" content="@load(vm.uploadedImage)" />
-                    <zul:fileupload id="uploadBtn" onUpload="@command('uploadImage')" />
+                    <xh:div style="border: 1px solid #ccc; width: 420px; height: 420px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <zul:image id="uploadImg" content="@load(vm.uploadedImageThumbnail)" style="max-width: 100%; max-height: 100%;" />
+                    </xh:div>
+                    <zul:fileupload id="uploadBtn" onUpload="@command('uploadImage')" label="Choose Image" />
                 </zul:hbox>
-
+                <zul:label id="incorrectCountLabel" style="color: black; font-weight: bold; font-family: 'Playfair Display';" value="@bind(vm.submittedTags)" />
+                <zul:label id="incorrectTagMessageLabel" style="color: red;" value="@bind(vm.badTagFormatMessage)" multiline="true"/>
+                <xh:div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                    <!-- New textbox for user input -->
+                    <zul:textbox id="userInputTextbox" value="@bind(vm.userInput)" placeholder="Your tags go here" width="410px"/>
+                    <zul:button label="Commit tags" onClick="@command('userInputChanged')" />
+                </xh:div>
+                <xh:div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                    <zul:textbox
+                            value="@bind(vm.imageDescription)"
+                            placeholder="Description"
+                            rows="@bind(vm.imageDescriptionRows)"
+                            maxlength="500"
+                            width="100%"
+                            tabbable="true"
+                    />
+                </xh:div>
             </zul:vbox>
             <zul:hbox>
                 <zul:button label="Upload" onClick="@command('upload')" />

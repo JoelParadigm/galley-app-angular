@@ -29,7 +29,7 @@ public class HashtagDto {
 
     private static Set<ImageDto> mapImagesToDto(HashtagEntity entity) {
         return entity.getImages().stream()
-                .map(ImageEntity -> ImageDto.builder().build())
+                .map(ImageDto::of)
                 .collect(Collectors.toSet());
     }
 }
