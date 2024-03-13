@@ -3,21 +3,25 @@
 
 <!DOCTYPE html>
 <xh:html xmlns="native" xmlns:zul="http://www.zkoss.org/2005/zul" xmlns:xh="xhtml" xmlns:sh="shadow">
-    <head>
-        <meta charset="utf-8" />
-        <xh:zkhead stubonly="false" />
-        <link rel="stylesheet" href="${c:encodeURL('~./css/styles.css')}" />
-    </head>
 
-    <xh:body>
-        <zul:window>
-            <div class="container">
-                <zul:button label="Upload" onClick="@command('navigate', target='upload.zul')" class="btn btn-primary" />
-                <zul:button label="Gallery" onClick="@command('navigate', target='gallery.zul')" class="btn btn-secondary" />
-                <zul:button label="Unknown" onClick="@command('navigate', target='unknown.zul')" class="btn btn-info" />
-            </div>
+        <head>
+            <meta charset="utf-8" />
+            <xh:zkhead stubonly="false" />
+            <link rel="stylesheet" href="${c:encodeURL('~./css/styles.css')}" />
+        </head>
 
-            <xh:div self="@{insert(pageContent)}" />
-        </zul:window>
-    </xh:body>
+        <xh:body>
+            <xh:div viewModel="@id('masterVm') @init('com.example.vm.MasterVm')">
+                <zul:window>
+                    <div class="container">
+                        <zul:button label="Upload" onClick="@command('navigateUpload')" />
+                        <zul:button label="Gallery" onClick="@command('navigateGallery')" />
+                        <zul:button label="Unknown" onClick="@command('navigateUnknown')" />
+                    </div>
+
+                    <xh:div self="@{insert(pageContent)}" />
+                </zul:window>
+            </xh:div>
+        </xh:body>
+
 </xh:html>

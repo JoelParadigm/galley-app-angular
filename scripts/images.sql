@@ -14,7 +14,7 @@ CREATE TABLE image
     name        TEXT NOT NULL CONSTRAINT cons_image_name_length CHECK  (LENGTH(name) <= 100),
     description TEXT CONSTRAINT cons_image_description_length CHECK  (LENGTH(description) <= 500),
     image       BYTEA,
-
+    thumbnail   BYTEA,
     CONSTRAINT pkey_image PRIMARY KEY  (id)
 );
 

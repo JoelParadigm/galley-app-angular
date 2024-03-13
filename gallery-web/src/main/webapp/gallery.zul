@@ -1,0 +1,19 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul" ?>
+<?page complete="true"?>
+
+<zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
+    <xh:div self="@{define(pageContent)}" viewModel="@id('galleryVm') @init('com.example.vm.GalleryVm')">
+        <zul:window>
+            <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
+
+            <zul:div forEach="${galleryVm.allImages}">
+                <div class="image-container" style="border: 1px solid gray; width: 325px; height: 350px; text-align: center;">
+                    <zul:label value="${each.getName()}"
+                               style="color: blue; font-family: 'Blue Fonte Font Duo'; font-size: 24px; text-transform: uppercase; text-align: center; display: block; margin-bottom: 10px;" />
+                    <zul:image content="${galleryVm.convertToAImage(each.imageData)}"
+                               style="max-width: 100%; max-height: 100%; display: inline-block;" />
+                </div>
+            </zul:div>
+        </zul:window>
+    </xh:div>
+</zk>

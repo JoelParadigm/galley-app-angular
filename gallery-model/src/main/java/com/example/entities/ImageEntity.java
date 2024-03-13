@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,9 @@ public class ImageEntity {
 
     @Column(name = "image", columnDefinition = "bytea")
     private byte[] imageData;
+
+    @Column(name = "thumbnail", columnDefinition = "bytea")
+    private byte[] imagethumbnail;
 
     @Column(name = "name")
     private String name;

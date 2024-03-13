@@ -16,6 +16,7 @@ public class ImageDto {
     private String description;
     private LocalDateTime uploadDate;
     private byte[] imageData;
+    private byte[] imageThumbnail;
     private Set<HashtagNameDto> hashtags;
 
     public static ImageDto of(ImageEntity entity) {
@@ -29,6 +30,7 @@ public class ImageDto {
                 .description(entity.getDescription())
                 .uploadDate(entity.getUploadDate())
                 .imageData(entity.getImageData())
+                .imageThumbnail(entity.getImagethumbnail())
                 .hashtags(mapTagsToDto(entity))
                 .build();
     }

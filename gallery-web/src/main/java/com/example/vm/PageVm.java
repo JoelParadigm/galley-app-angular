@@ -4,6 +4,8 @@ import com.example.DatabaseClearService;
 import com.example.GalleryService;
 import com.example.ImageService;
 import com.example.TagService;
+import com.example.dto.HashtagNameDto;
+import com.example.dto.ImageDto;
 import com.example.entities.HashtagEntity;
 import com.example.entities.ImageEntity;
 import lombok.Getter;
@@ -22,9 +24,7 @@ import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -50,6 +50,7 @@ public class PageVm {
 
     private String imageDescription = "";
     private int imageDescriptionRows = 5;
+    private int imageDimensions = 300;
 
 
     @Init
@@ -109,8 +110,20 @@ public class PageVm {
             sizeLabelText = String.format("Image Information - Size: %d bytes, Title: %s\n", imageSize, title);
             sizeLabelText += String.format("Number of tags: %d\n", tags.size());
             sizeLabelText += String.format("Description length: %d\n", imageDescription.length());
+            Set<HashtagNameDto> hashtagset = new HashSet<>();
+            for(String s : tags){
+                hashtagset.add(new HashtagNameDto(null, s));
+            }
+            ImageDto imageDto = new ImageDto(null,
+                                            title,
+                                            imageDescription,
+                                            LocalDateTime.now(),
+                                            uploadedImage,
+                                            imageService.generateThumbnail(uploadedImage, imageDimensions, imageDimensions),
+                                            hashtagset);
+            galleryService.saveOrUpdateImage(imageDto);
 
-            galleryService.saveImage(title, imageDescription, LocalDateTime.now(), uploadedImage, tags);
+            Executions.sendRedirect("gallery.zul");
         } else {
             sizeLabelText  = "No image uploaded.";
         }
