@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +68,7 @@ public class GalleryService {
                 .map(HashtagEntity::getName)
                 .collect(Collectors.toList());
         for (HashtagNameDto hashtagName : hashtagNames) {
-            if (!existingHashtags.contains(hashtagName)) {
+            if (!existingHashtags.contains(hashtagName.getName())) {
                 HashtagEntity newHashtag = new HashtagEntity();
                 newHashtag.setName(hashtagName.getName());
                 hashtags.add(hashtagRepository.save(newHashtag));
@@ -89,15 +86,28 @@ public class GalleryService {
     }
 
     public List<ImageThumbnailDto> getAllImageThumbnailDtos(int thumbnailWidth, int thumbnailHeight) {
-        List<ImageEntity> images = getAllImages();
-        List<ImageThumbnailDto> imageThumbnailDtos = images.stream()
-                .map(imageEntity -> {
-                    byte[] thumbnailData = imageService.generateThumbnail(imageEntity.getImageData(), thumbnailWidth, thumbnailHeight);
-                    ImageThumbnailDto tempDto = ImageThumbnailDto.of(imageEntity);
-                    tempDto.setImageData(thumbnailData);
+        List<Object[]> imageObjects = imageRepository.findAllImagesForGalleryView();
+        List<ImageThumbnailDto> imageThumbnailDtos = imageObjects.stream()
+                .map(objectArray -> {
+                    Long id = (Long) objectArray[0];
+                    String name = (String) objectArray[1];
+                    byte[] thumbnailData = (byte[]) objectArray[2];
+                    Set<HashtagNameDto> hashtags = getHashtagsByImageId(id);
+                    ImageThumbnailDto tempDto = new ImageThumbnailDto(id, name, thumbnailData, hashtags);
                     return tempDto;
                 })
-                .collect(Collectors.toList());
-        return imageThumbnailDtos;
+                .collect(Collectors.toList());        return imageThumbnailDtos;
+    }
+
+    public Set<HashtagNameDto> getHashtagsByImageId(Long imageId) {
+        Set<HashtagEntity> hashtags = imageRepository.findHashtagsByImageId(imageId);
+
+        // Map HashtagEntity objects to HashtagNameDto objects
+        Set<HashtagNameDto> hashtagDtos = new HashSet<>();
+        for (HashtagEntity hashtag : hashtags) {
+            hashtagDtos.add(HashtagNameDto.of(hashtag));
+        }
+
+        return hashtagDtos;
     }
 }

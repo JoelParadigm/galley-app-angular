@@ -1,5 +1,6 @@
 package com.example.repo;
 
+import com.example.entities.HashtagEntity;
 import com.example.entities.ImageEntity;
 import com.sun.istack.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
@@ -21,4 +23,10 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
     @Query("SELECT i FROM Image i JOIN i.hashtags h WHERE h.name = :hashtagName")
     List<ImageEntity> findByHashtagName(@Param("hashtagName") String hashtagName);
+
+    @Query("SELECT i.hashtags FROM Image i WHERE i.id = :imageId")
+    Set<HashtagEntity> findHashtagsByImageId(@Param("imageId") Long imageId);
+
+    @Query("SELECT i.id, i.name, i.imagethumbnail FROM Image i")
+    List<Object[]> findAllImagesForGalleryView();
 }

@@ -6,14 +6,23 @@
         <zul:window>
             <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
 
-            <zul:div forEach="${galleryVm.allImages}">
+            <xh:div forEach="${galleryVm.allImages}" >
                 <div class="image-container" style="border: 1px solid gray; width: 325px; height: 350px; text-align: center;">
+                    <zul:label id="imageIdLabel_${forEachStatus.index}" value = "${self.id}${each.getId()}" visible="true" />
                     <zul:label value="${each.getName()}"
                                style="color: blue; font-family: 'Blue Fonte Font Duo'; font-size: 24px; text-transform: uppercase; text-align: center; display: block; margin-bottom: 10px;" />
-                    <zul:image content="${galleryVm.convertToAImage(each.imageData)}"
-                               style="max-width: 100%; max-height: 100%; display: inline-block;" />
+                    <zul:image id="${each.id}" content="${galleryVm.convertToAImage(each.getImageData())}"
+                               style="max-width: 100%; max-height: 100%; display: inline-block;"
+                               onClick="@command('openEditTab', imageId=self.id)" />
+
+                    <zul:hlayout>
+                        <zul:div forEach="${each.hashtags}">
+                            <zul:label value="#${forEachStatus.current.name}" style="font-weight: bold; color: blue; margin-left: 5px;"
+                                       onClick="@command('updateLog', hashtag=self.value)"/>
+                        </zul:div>
+                    </zul:hlayout>
                 </div>
-            </zul:div>
+            </xh:div>
         </zul:window>
     </xh:div>
 </zk>

@@ -92,11 +92,10 @@ public class PageVm {
     }
 
     @Command
-
     public void cancel() {
         // logic for cancel button or navigation to another page
     }
-
+// to-do bug noticed with duplicate tags being created
     @Command
     @NotifyChange({"sizeLabelText", "imageDescription"})
     public void upload() {
