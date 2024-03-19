@@ -7,20 +7,18 @@
         <head>
             <meta charset="utf-8" />
             <xh:zkhead stubonly="false" />
-            <link rel="stylesheet" href="${c:encodeURL('~./css/styles.css')}" />
+            <link rel="stylesheet" href="${c:encodeURL('~/static/css/bootstrap.css')}" />
         </head>
 
-        <xh:body>
-            <xh:div viewModel="@id('masterVm') @init('com.example.vm.MasterVm')">
-                <zul:window>
-                    <div class="container">
-                        <zul:button label="Upload" onClick="@command('navigateUpload')" />
-                        <zul:button label="Gallery" onClick="@command('navigateGallery')" />
-                        <zul:button label="Unknown" onClick="@command('navigateUnknown')" />
+        <xh:body id="0" style="background-color: #faf2fd; margin: 10px;">
+            <xh:div id="1" viewModel="@id('masterVm') @init('com.example.vm.MasterVm')" style="background-color: #faf2fd; margin: 10px;">
+                    <div id="3" class="container" style="background-color: #faf2fd; margin: 10px;">
+                        <zul:button label="Gallery" style="background-color: #f08eb4;" onClick="@command('navigateGallery')" />
+                        <zul:button label="Upload" style="background-color: #f08eb4;" onClick="@command('navigateUpload')" />
+                        <zul:button label="Unknown" style="background-color: #f08eb4;" onClick="@command('navigateUnknown')" />
                     </div>
 
-                    <xh:div self="@{insert(pageContent)}" />
-                </zul:window>
+                    <xh:div self="@{insert(pageContent)}" style="background-color: #faf2fd; margin: 10px;"/>
             </xh:div>
         </xh:body>
 

@@ -26,4 +26,9 @@ public class MasterVm {
     public void navigateUnknown() {
         Executions.sendRedirect("/gallery/images");
     }
+
+    @Command
+    public void navigateDetail() {
+        Executions.sendRedirect("imageDetail.zul");
+    }
 }

@@ -1,11 +1,14 @@
 package com.example;
 
+import com.example.dto.HashtagNameDto;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @NoArgsConstructor
@@ -67,5 +70,38 @@ public class TagService {
 
     public boolean uniqueTag(List<String> tags, String tag){
         return !tags.contains(tag);
+    }
+
+    public List<String> getCorrectTagsFromUserInput(String userInput) {
+        if(!userInput.isEmpty()){
+            List<String> words = parseWords(userInput);
+            List<String> correctTags = new ArrayList<>();
+            for(int i = 0; i < words.size(); i++) {
+                String word = words.get(i);
+                if(correctTagFormat(word)){
+                    if(uniqueTag(correctTags, word)) {
+                        String correctTag = stripStringToPlainTagFormat(words.get(i));
+                        correctTags.add(correctTag);
+                    }
+                }
+            }
+            return correctTags;
+        } else {
+            return null;
+        }
+    }
+
+    public String getTagsInPrintableFormat(List<String> tagNames){
+        String result = "";
+        for(String tagName : tagNames){
+            result += String.format("#%s ", tagName);
+        }
+        return result;
+    }
+
+    public List<Long> extractIds(Set<HashtagNameDto> dtos) {
+        return dtos.stream()
+                .map(HashtagNameDto::getId) // Map each DTO to its id
+                .collect(Collectors.toList()); // Collect ids into a list
     }
 }

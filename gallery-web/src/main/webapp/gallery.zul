@@ -1,28 +1,57 @@
-<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul"?>
 <?page complete="true"?>
 
 <zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
     <xh:div self="@{define(pageContent)}" viewModel="@id('galleryVm') @init('com.example.vm.GalleryVm')">
-        <zul:window>
+        <window>
             <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
+            <div class="row">
+                <zul:forEach items="@load(galleryVm.allImages)">
+                    <div class="col-12 col-md-6 col-lg-3 mb-4">
+                        <!-- Content for each image here -->
+                        <div style="border: 1px solid gray;
+                                background-color: #faf2fd;
+                                height: 365px;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                border-radius: 8px;
+                                padding: 4px;">
+                            <zul:label
+                                    value="@load(each.getName())"
+                                    style="color: #14100F;
+                                       background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+                                       font-family: 'Garamond', serif;
+                                       font-size: 24px;
+                                       font-weight: bold;
+                                       text-transform: uppercase;
+                                       text-align: center;
+                                       margin-bottom: auto;
+                                       border-top-left-radius: 8px;
+                                       border-top-right-radius: 8px;
+                                       padding: 0px;" />
+                            <zul:image
+                                    content="@load(galleryVm.convertToAImage(each.getImageData()))"
+                                    style="max-width: 100%;
+                                       max-height: 100%;
+                                       align-self: center;
+                                       margin-top: auto;
+                                       margin-bottom: 2px;"
+                                    onClick="@command('openEditTab', imageId=each.id)" />
+                            <zul:hlayout style="margin-bottom: 5px; justify-content: center;">
+                                <xh:div forEach="${each.hashtags}">
+                                    <zul:label
+                                            value="#${forEachStatus.current.name}"
+                                            style="font-weight: bold; color: #520b25;
+                                                margin-left: 5px;"
+                                            onClick="@command('updateLog', hashtag=self.value)" />
+                                </xh:div>
+                            </zul:hlayout>
+                        </div>
 
-            <xh:div forEach="${galleryVm.allImages}" >
-                <div class="image-container" style="border: 1px solid gray; width: 325px; height: 350px; text-align: center;">
-                    <zul:label id="imageIdLabel_${forEachStatus.index}" value = "${self.id}${each.getId()}" visible="true" />
-                    <zul:label value="${each.getName()}"
-                               style="color: blue; font-family: 'Blue Fonte Font Duo'; font-size: 24px; text-transform: uppercase; text-align: center; display: block; margin-bottom: 10px;" />
-                    <zul:image id="${each.id}" content="${galleryVm.convertToAImage(each.getImageData())}"
-                               style="max-width: 100%; max-height: 100%; display: inline-block;"
-                               onClick="@command('openEditTab', imageId=self.id)" />
-
-                    <zul:hlayout>
-                        <zul:div forEach="${each.hashtags}">
-                            <zul:label value="#${forEachStatus.current.name}" style="font-weight: bold; color: blue; margin-left: 5px;"
-                                       onClick="@command('updateLog', hashtag=self.value)"/>
-                        </zul:div>
-                    </zul:hlayout>
-                </div>
-            </xh:div>
-        </zul:window>
+                    </div>
+                </zul:forEach>
+            </div>
+        </window>
     </xh:div>
 </zk>

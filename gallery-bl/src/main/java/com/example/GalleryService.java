@@ -8,6 +8,7 @@ import com.example.entities.ImageEntity;
 import com.example.repo.HashtagRepository;
 import com.example.repo.ImageRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,18 +22,31 @@ public class GalleryService {
 
     private final HashtagRepository hashtagRepository;
     private final ImageRepository imageRepository;
-    private final ImageService imageService;
 
     public List<HashtagEntity> getAllHashtags() {
         return hashtagRepository.findAll();
     }
 
-    public List<ImageEntity> getAllImages() {
-        return imageRepository.findAll();
+    public List<ImageDto> getAllImages() {
+        List<ImageEntity> images = imageRepository.findAll();
+        return images.stream()
+                .map(ImageDto::of)
+                .collect(Collectors.toList());
     }
 
-    public ImageEntity saveImage(ImageEntity image) {
-        return imageRepository.save(image);
+    public ImageDto saveImage(ImageEntity image) {
+        return ImageDto.of(imageRepository.save(image));
+    }
+
+    @Transactional
+    public ImageDto getImageById(Long id) {
+        ImageEntity imageEntity = id != null ? imageRepository.findById(id).orElse(null) : null;
+        if (imageEntity != null) {
+
+            Hibernate.initialize(imageEntity.getHashtags());
+            return ImageDto.of(imageEntity);
+        }
+        return null;
     }
 
     public List<ImageEntity> getImagesByHashtag(String hashtagName) {
@@ -42,8 +56,6 @@ public class GalleryService {
     @Transactional
     public Long saveOrUpdateImage(ImageDto imageDto) {
 
-
-
         ImageEntity image = imageDto.getId() != null ? imageRepository.findById(imageDto.getId()).get(): new ImageEntity();
         image.setName(imageDto.getName());
         image.setDescription(imageDto.getDescription());
@@ -52,10 +64,10 @@ public class GalleryService {
         image.setImagethumbnail(imageDto.getImageThumbnail());
         image.setHashtags(getAndUpdateHashtags(imageDto.getHashtags()));
 
-        return imageRepository.save(image).getId();
+        return saveImage(image).getId();
     }
 
-    public Set<HashtagEntity> getAndUpdateHashtags(Set<HashtagNameDto> hashtagNames){
+    private Set<HashtagEntity> getAndUpdateHashtags(Set<HashtagNameDto> hashtagNames){
 
         List<String> hashtagNameStrings = hashtagNames.stream()
                 .map(HashtagNameDto::getName)
@@ -77,26 +89,48 @@ public class GalleryService {
         return new HashSet<>(hashtags);
     }
 
-    public List<ImageDto> getAllImageDtos() {
-        List<ImageEntity> images = getAllImages();
-        List<ImageDto> imageDtos = images.stream()
-                .map(ImageDto::of)
-                .collect(Collectors.toList());
-        return imageDtos;
-    }
-
-    public List<ImageThumbnailDto> getAllImageThumbnailDtos(int thumbnailWidth, int thumbnailHeight) {
+    public List<ImageThumbnailDto> getAllImageThumbnailDtos() {
         List<Object[]> imageObjects = imageRepository.findAllImagesForGalleryView();
+        List<Object[]> imageTagsObjects = imageRepository.findAllImageIdHashtagByImageIds(
+                getImageIdListFromObjectList(imageObjects));
+        Map<Long, Set<HashtagNameDto>> tagMap = getHashtagSetMapByImageIds(imageTagsObjects);
         List<ImageThumbnailDto> imageThumbnailDtos = imageObjects.stream()
                 .map(objectArray -> {
                     Long id = (Long) objectArray[0];
                     String name = (String) objectArray[1];
                     byte[] thumbnailData = (byte[]) objectArray[2];
-                    Set<HashtagNameDto> hashtags = getHashtagsByImageId(id);
+                    Set<HashtagNameDto> hashtags = tagMap.get(id);
                     ImageThumbnailDto tempDto = new ImageThumbnailDto(id, name, thumbnailData, hashtags);
                     return tempDto;
                 })
                 .collect(Collectors.toList());        return imageThumbnailDtos;
+    }
+
+    private List<Long> getImageIdListFromObjectList(List<Object[]> imageObjects){
+        List<Long> imageIdList = new ArrayList<>();
+        for (Object[] imageObject : imageObjects) {
+            Long imageId = (Long) imageObject[0];
+            imageIdList.add(imageId);
+        }
+        return imageIdList;
+    }
+
+    public static Map<Long, Set<HashtagNameDto>> getHashtagSetMapByImageIds(List<Object[]> iId_hId_hName) {
+        Map<Long, Set<HashtagNameDto>> map = new HashMap<>();
+
+        for (Object[] obj : iId_hId_hName) {
+            Long imageId = (Long) obj[0];
+            Long hashtagId = (Long) obj[1];
+            String hashtagName = (String) obj[2];
+
+            // Retrieve the set of hashtags for the current image ID
+            Set<HashtagNameDto> hashtagSet = map.computeIfAbsent(imageId, k -> new HashSet<>());
+
+            // Add the current hashtag to the set
+            hashtagSet.add(new HashtagNameDto(hashtagId, hashtagName));
+        }
+
+        return map;
     }
 
     public Set<HashtagNameDto> getHashtagsByImageId(Long imageId) {
@@ -109,5 +143,20 @@ public class GalleryService {
         }
 
         return hashtagDtos;
+    }
+
+    @Transactional
+    public void deleteFloatingTags(List<Long> imageIds) {
+        List<HashtagEntity> floatingTags = hashtagRepository.findFloatingTagsByImageIds(imageIds);
+        for (HashtagEntity tag : floatingTags) {
+            hashtagRepository.deleteById(tag.getId());
+            System.out.println("we delete a tag");
+
+        }
+    }
+
+    @Transactional
+    public void deleteImageById(Long imageId) {
+        imageRepository.deleteById(imageId);
     }
 }

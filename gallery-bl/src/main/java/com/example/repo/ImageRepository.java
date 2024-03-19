@@ -29,4 +29,10 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
     @Query("SELECT i.id, i.name, i.imagethumbnail FROM Image i")
     List<Object[]> findAllImagesForGalleryView();
+
+    @Query("SELECT i.id, h.id, h.name " +
+            "FROM Image i " +
+            "JOIN i.hashtags h " +
+            "WHERE i.id IN :imageIds")
+    List<Object[]> findAllImageIdHashtagByImageIds(@Param("imageIds") List<Long> imageIds);
 }

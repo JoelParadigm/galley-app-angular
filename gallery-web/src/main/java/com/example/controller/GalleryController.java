@@ -24,10 +24,7 @@ public class GalleryController {
 
     @GetMapping("/images")
     public ResponseEntity<List<ImageDto>> getAllImages() {
-        List<ImageEntity> images = galleryService.getAllImages();
-        List<ImageDto> imageDtos = images.stream()
-                .map(ImageDto::of)
-                .collect(Collectors.toList());
+        List<ImageDto> imageDtos = galleryService.getAllImages();
         return new ResponseEntity<>(imageDtos, HttpStatus.OK);
     }
 
