@@ -15,7 +15,7 @@
                     <div id="3" class="container" style="background-color: #faf2fd; margin: 10px;">
                         <zul:button label="Gallery" style="background-color: #f08eb4;" onClick="@command('navigateGallery')" />
                         <zul:button label="Upload" style="background-color: #f08eb4;" onClick="@command('navigateUpload')" />
-                        <zul:button label="Unknown" style="background-color: #f08eb4;" onClick="@command('navigateUnknown')" />
+<!--                        <zul:button label="Unknown" style="background-color: #f08eb4;" onClick="@command('navigateUnknown')" />-->
                     </div>
 
                     <xh:div self="@{insert(pageContent)}" style="background-color: #faf2fd; margin: 10px;"/>

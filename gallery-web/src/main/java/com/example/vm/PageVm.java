@@ -1,17 +1,12 @@
 package com.example.vm;
 
-import com.example.DatabaseClearService;
 import com.example.GalleryService;
 import com.example.ImageService;
 import com.example.TagService;
 import com.example.dto.HashtagNameDto;
 import com.example.dto.ImageDto;
-import com.example.entities.HashtagEntity;
-import com.example.entities.ImageEntity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.bind.annotation.*;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;

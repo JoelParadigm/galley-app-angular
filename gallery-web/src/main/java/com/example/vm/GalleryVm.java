@@ -1,9 +1,15 @@
 package com.example.vm;
 
 import com.example.GalleryService;
+import com.example.TagService;
 import com.example.dto.ImageThumbnailDto;
+import com.example.dto.SearchCriteria;
+import com.example.search.SearchService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -14,6 +20,7 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,15 +30,30 @@ public class GalleryVm {
 
     @WireVariable
     private GalleryService galleryService;
+    @WireVariable
+    private SearchService searchService;
+    @WireVariable
+    private TagService tagService;
 
+    private Page<ImageThumbnailDto> imagePage;
     private List<ImageThumbnailDto>  allImages;
     private String  log = "";
+    private SearchCriteria criteria;
 
+    private String searchTitle = "";
+    private String searchDescription = "";
+    private String searchTags = "";
+
+    private int currentPageIndex = 0; // Track the current page index
+    private final int PAGE_SIZE = 8; // Page size
+    boolean boolTest = false;
 
     @Init
     public void init() {
-        allImages = galleryService.getAllImageThumbnailDtos();
-        log = "" + allImages.size();
+
+        criteria = new SearchCriteria("","", new ArrayList<>());
+        loadImagesForCurrentPage();
+//        log = "" + allImages.size();
     }
 
     public AImage convertToAImage(byte[] imageData) {
@@ -62,4 +84,43 @@ public class GalleryVm {
         else
             log = "image: null";
     }
+
+    @Command
+    @NotifyChange({"allImages", "currentPageIndex"})
+    public void nextPage() {
+        if (currentPageIndex < imagePage.getTotalPages() - 1) {
+            currentPageIndex++;
+            loadImagesForCurrentPage();
+        }
+    }
+
+    @Command
+    @NotifyChange({"allImages", "currentPageIndex"})
+    public void previousPage() {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            loadImagesForCurrentPage();
+        }
+
+    }
+
+    private void loadImagesForCurrentPage() {
+        Pageable pageable = PageRequest.of(currentPageIndex, PAGE_SIZE);
+        imagePage = searchService.searchImages(criteria, pageable);
+        log = "total pages" + imagePage.getTotalPages();
+        allImages = imagePage.getContent();
+    }
+
+    @Command
+    @NotifyChange({"searchTitle", "searchDescription", "searchTags"})
+    public void searchByCriteria(){
+        List<String> tags = tagService.getCorrectTagsFromUserInput(searchTags);
+        System.out.println("description: "+searchDescription+" title: "+searchTitle+"tagnames: "+searchTags+" num of tags: "+tags.size());
+        criteria.setTagNames(tags);
+        criteria.setDescription(searchDescription);
+        criteria.setImageTitle(searchTitle);
+        currentPageIndex = 0;
+        loadImagesForCurrentPage();
+    }
+
 }

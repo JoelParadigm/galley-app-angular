@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,17 +29,9 @@ public class ImageThumbnailDto {
         return ImageThumbnailDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .imageData(entity.getImageData())
-                .hashtags(mapTagsToDto(entity))
+                .imageData(entity.getImagethumbnail())
+                .hashtags(new HashSet<>())
                 .build();
     }
 
-    private static Set<HashtagNameDto> mapTagsToDto(ImageEntity entity) {
-        return entity.getHashtags().stream()
-                .map(hashtagEntity -> HashtagNameDto.builder()
-                        .id(hashtagEntity.getId())
-                        .name(hashtagEntity.getName())
-                        .build())
-                .collect(Collectors.toSet());
-    }
 }

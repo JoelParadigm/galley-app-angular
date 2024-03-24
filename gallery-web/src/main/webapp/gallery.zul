@@ -3,55 +3,216 @@
 
 <zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
     <xh:div self="@{define(pageContent)}" viewModel="@id('galleryVm') @init('com.example.vm.GalleryVm')">
-        <window>
-            <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
-            <div class="row">
-                <zul:forEach items="@load(galleryVm.allImages)">
-                    <div class="col-12 col-md-6 col-lg-3 mb-4">
-                        <!-- Content for each image here -->
-                        <div style="border: 1px solid gray;
-                                background-color: #faf2fd;
-                                height: 365px;
-                                display: flex;
-                                flex-direction: column;
-                                justify-content: space-between;
-                                border-radius: 8px;
-                                padding: 4px;">
-                            <zul:label
-                                    value="@load(each.getName())"
-                                    style="color: #14100F;
-                                       background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
-                                       font-family: 'Garamond', serif;
-                                       font-size: 24px;
-                                       font-weight: bold;
-                                       text-transform: uppercase;
-                                       text-align: center;
-                                       margin-bottom: auto;
-                                       border-top-left-radius: 8px;
-                                       border-top-right-radius: 8px;
-                                       padding: 0px;" />
-                            <zul:image
-                                    content="@load(galleryVm.convertToAImage(each.getImageData()))"
-                                    style="max-width: 100%;
-                                       max-height: 100%;
-                                       align-self: center;
-                                       margin-top: auto;
-                                       margin-bottom: 2px;"
-                                    onClick="@command('openEditTab', imageId=each.id)" />
-                            <zul:hlayout style="margin-bottom: 5px; justify-content: center;">
-                                <xh:div forEach="${each.hashtags}">
-                                    <zul:label
-                                            value="#${forEachStatus.current.name}"
-                                            style="font-weight: bold; color: #520b25;
-                                                margin-left: 5px;"
-                                            onClick="@command('updateLog', hashtag=self.value)" />
-                                </xh:div>
-                            </zul:hlayout>
-                        </div>
+        <style>
+            .custom-background {
+            background: linear-gradient(to right, #f5e4f8, #f5d9f7);
+            border-radius: 2px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: all 0.3s ease; /* Add transition effect for smoother animation */
+            }
+            .textbox-style {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: transparent;
+            color: #333;
+            margin-bottom: 10px;
+            }
+            .button-style {
+            background-color: #454545;
+            color: #ececec;
+            border-color: #505050;
+            margin: 5px;
+            }
+            .label-style {
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: left;
+            padding-left: 5px;
+            }
+            .log-style {
+            color: red;
+            }
+            .image-container {
+            background: linear-gradient(to right, #ea625b, #ea865b);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            text-align: center;
+            }
+            .collapsible-arrow {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+            }
 
-                    </div>
-                </zul:forEach>
+            .collapsedContent {
+            display: none;
+            }
+
+            .expandedContent {
+            display: block;
+            }
+            .arrow-down {
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+            }
+            .arrow-up {
+            transform: rotate(180deg);
+            transition: all 0.3s ease;
+            }
+            .button-style {
+            background-color: #343a40;
+            color: #fff;
+            border-color: #343a40;
+            }
+            .disabled-button-style {
+            background-color: #ddd;
+            color: #999;
+            border-color: #ddd;
+            }
+        </style>
+        <!-- Collapsible arrow -->
+        <div class="row">
+            <div class="col d-flex align-items-center">
+                <label class="label-style mb-0">Filter</label>
+                <div class="collapsible-arrow arrow-down ml-2" onclick="toggleCollapsible()">
+                    <span>&#9660;</span> <!-- Unicode down arrow character -->
+                </div>
             </div>
-        </window>
+        </div>
+        <!-- Collapsible div -->
+        <div id="collapsibleDiv" class="custom-background collapsedContent">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col">
+                        <label class="label-style">Tags:</label>
+                        <zul:textbox value="@bind(galleryVm.searchTags)" placeholder="Tags to search by"
+                                     maxlength="100" class="textbox-style"/>
+                    </div>
+                    <div class="col">
+                        <label class="label-style">Title:</label>
+                        <zul:textbox value="@bind(galleryVm.searchTitle)" placeholder="Title to search by"
+                                     maxlength="100" class="textbox-style"/>
+                    </div>
+                    <div class="col">
+                        <label class="label-style">Description:</label>
+                        <zul:textbox value="@bind(galleryVm.searchDescription)" placeholder="Description to search by"
+                                     maxlength="100" class="textbox-style"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto align-self-center">
+                        <zul:button label="Search" onClick="@command('searchByCriteria')" style="background-color: #343a40; color: #fff; border-color: #343a40;" />
+                    </div>
+                    <div class="col">
+                        <!-- Empty column to fill space -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
+        <zul:div class="row">
+            <zul:forEach items="@load(galleryVm.allImages)">
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <!-- Content for each image here -->
+                    <div style="border: 1px solid gray;
+                            background-color: #faf2fd;
+                            height: 365px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            border-radius: 8px;
+                            padding: 4px;">
+                        <zul:label
+                                value="@load(each.getName())"
+                                style="color: #14100F;
+                                   background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+                                   font-family: 'Garamond', serif;
+                                   font-size: 24px;
+                                   font-weight: bold;
+                                   text-transform: uppercase;
+                                   text-align: center;
+                                   margin-bottom: auto;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
+                                   padding: 0px;" />
+                        <zul:image
+                                content="@load(galleryVm.convertToAImage(each.getImageData()))"
+                                style="max-width: 100%;
+                                   max-height: 100%;
+                                   align-self: center;
+                                   margin-top: auto;
+                                   margin-bottom: 2px;"
+                                onClick="@command('openEditTab', imageId=each.id)" />
+                        <zul:hlayout style="margin-bottom: 5px; justify-content: center;">
+                            <xh:div forEach="${each.hashtags}">
+                                <zul:label
+                                        value="#${forEachStatus.current.name}"
+                                        style="font-weight: bold; color: #520b25;
+                                            margin-left: 5px;"
+                                        onClick="@command('updateLog', hashtag=self.value)" />
+                            </xh:div>
+                        </zul:hlayout>
+                    </div>
+
+                </div>
+            </zul:forEach>
+        </zul:div>
+        <zul:div class ="row">
+            <div class="col-auto align-self-center">
+                <zul:button id="previousButton"
+                            label="←"
+                            onClick="@command('previousPage')"
+                            disabled="false"
+                            style="background-color: #343a40; color: #fff; border-color: #343a40;"/>
+                <zul:label
+                        value="@bind(galleryVm.currentPageIndex)" />
+                <zul:button id="nextButton"
+                            label="→"
+                            onClick="@command('nextPage')"
+                            visible="true"
+                            style="background-color: #343a40; color: #fff; border-color: #343a40;"/>
+
+            </div>
+            <div class="col">
+                <!-- Empty column to fill space -->
+            </div>
+        </zul:div>
+
     </xh:div>
+    <script><![CDATA[
+        function toggleCollapsible() {
+            var collapsibleDiv = document.getElementById("collapsibleDiv");
+            var arrow = document.querySelector('.collapsible-arrow');
+
+            if (collapsibleDiv.classList.contains('collapsedContent')) {
+                collapsibleDiv.classList.remove('collapsedContent');
+                collapsibleDiv.classList.add('expandedContent');
+                arrow.classList.remove('arrow-down');
+                arrow.classList.add('arrow-up');
+            } else {
+                collapsibleDiv.classList.remove('expandedContent');
+                collapsibleDiv.classList.add('collapsedContent');
+                arrow.classList.remove('arrow-up');
+                arrow.classList.add('arrow-down');
+            }
+        }
+    ]]></script>
 </zk>

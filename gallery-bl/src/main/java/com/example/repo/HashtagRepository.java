@@ -10,10 +10,5 @@ import java.util.List;
 
 @Repository
 public interface HashtagRepository extends JpaRepository<HashtagEntity, Long> {
-    List<HashtagEntity> findByName(String tagName);
-
     List<HashtagEntity> findByNameIn(List<String> names);
-
-    @Query("SELECT h FROM Hashtag h LEFT JOIN h.images i WHERE i.id IN :imageIds GROUP BY h HAVING COUNT(i) = 0")
-    List<HashtagEntity> findFloatingTagsByImageIds(@Param("imageIds") List<Long> imageIds);
 }
