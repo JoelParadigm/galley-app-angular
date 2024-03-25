@@ -76,9 +76,6 @@
                                   letter-spacing: 1px; "/>
             </div>
         </div>
-
-        <zul:label id="log" value="@bind(updateVm.log)" class="log-style" multiline="true"/>
-
         <div class="container-fluid custom-background">
             <div class="col" style = "text-align: center;">
                 <zul:button label="Save Changes" onClick="@command('saveChanges')" class="button-style"/>

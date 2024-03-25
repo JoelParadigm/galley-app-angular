@@ -68,7 +68,7 @@ public class UpdateImageVm {
     @NotifyChange("log")
     public void cancel() {
         log = "cancel";
-        Executions.sendRedirect("imageDetail.zul?imageId=" + image.getId()+"&cancel=1");
+        Executions.sendRedirect("imageDetail.zul?imageId=" + image.getId());
     }
 
     @Command

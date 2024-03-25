@@ -44,16 +44,17 @@ public class GalleryVm {
     private String searchDescription = "";
     private String searchTags = "";
 
-    private int currentPageIndex = 0; // Track the current page index
-    private final int PAGE_SIZE = 8; // Page size
-    boolean boolTest = false;
+    private int currentPageIndex = 0;
+    private final int PAGE_SIZE = 8;
+
+    private boolean nextButtonDisabled = false;
+    private boolean previousButtonDisabled = false;
 
     @Init
     public void init() {
 
         criteria = new SearchCriteria("","", new ArrayList<>());
         loadImagesForCurrentPage();
-//        log = "" + allImages.size();
     }
 
     public AImage convertToAImage(byte[] imageData) {
@@ -66,11 +67,12 @@ public class GalleryVm {
     }
 
     @Command
-    @NotifyChange("log")
+    @NotifyChange({"log", "allImages", "currentPageIndex"})
     public void searchByTag(@BindingParam("hashtag") String hashtag) {
+        List<String> tags = new ArrayList<>();
         String hashtagNameToSearchBy = hashtag.substring(1);
-        // reikia apsisaugoti nuo sql injectionu
-        log = "hashtag: " + hashtagNameToSearchBy;
+        tags.add(hashtagNameToSearchBy);
+        getPageContentByCriteria(tags, "", "");
     }
 
     @Command
@@ -86,7 +88,7 @@ public class GalleryVm {
     }
 
     @Command
-    @NotifyChange({"allImages", "currentPageIndex"})
+    @NotifyChange({"allImages", "currentPageIndex", "nextButtonDisabled", "previousButtonDisabled"})
     public void nextPage() {
         if (currentPageIndex < imagePage.getTotalPages() - 1) {
             currentPageIndex++;
@@ -95,7 +97,7 @@ public class GalleryVm {
     }
 
     @Command
-    @NotifyChange({"allImages", "currentPageIndex"})
+    @NotifyChange({"allImages", "currentPageIndex", "nextButtonDisabled", "previousButtonDisabled"})
     public void previousPage() {
         if (currentPageIndex > 0) {
             currentPageIndex--;
@@ -104,12 +106,15 @@ public class GalleryVm {
 
     }
 
-    private void loadImagesForCurrentPage() {
-        Pageable pageable = PageRequest.of(currentPageIndex, PAGE_SIZE);
-        imagePage = searchService.searchImages(criteria, pageable);
-        log = "total pages" + imagePage.getTotalPages();
-        allImages = imagePage.getContent();
+    public boolean isNextButtonDisabled() {
+        return (currentPageIndex >= imagePage.getTotalPages() - 1);
     }
+
+    public boolean isPreviousButtonDisabled() {
+        return (currentPageIndex <= 0);
+    }
+
+
 
     @Command
     @NotifyChange({"searchTitle", "searchDescription", "searchTags", "allImages", "currentPageIndex"})
@@ -123,6 +128,10 @@ public class GalleryVm {
                         " tagnames: " + (searchTags != null ? searchTags : "null") +
                         " num of tags: " + (tags != null ? tags.size() : "null")
         );
+        getPageContentByCriteria(tags, searchTitle, searchDescription);
+    }
+
+    private void getPageContentByCriteria(List<String> tags, String searchTitle, String searchDescription) {
         criteria.setTagNames(tags);
         criteria.setDescription(searchDescription);
         criteria.setImageTitle(searchTitle);
@@ -130,4 +139,9 @@ public class GalleryVm {
         loadImagesForCurrentPage();
     }
 
+    private void loadImagesForCurrentPage() {
+        Pageable pageable = PageRequest.of(currentPageIndex, PAGE_SIZE);
+        imagePage = searchService.searchImages(criteria, pageable);
+        allImages = imagePage.getContent();
+    }
 }

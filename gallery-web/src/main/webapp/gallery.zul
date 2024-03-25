@@ -127,7 +127,6 @@
                 </div>
             </div>
         </div>
-        <zul:label id="log" style="color: red;" value="@bind(galleryVm.log)" multiline="true"/>
         <zul:div class="row">
             <zul:forEach items="@load(galleryVm.allImages)">
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
@@ -167,7 +166,7 @@
                                         value="#${forEachStatus.current.name}"
                                         style="font-weight: bold; color: #520b25;
                                             margin-left: 5px;"
-                                        onClick="@command('updateLog', hashtag=self.value)" />
+                                        onClick="@command('searchByTag', hashtag=self.value)" />
                             </xh:div>
                         </zul:hlayout>
                     </div>
@@ -180,14 +179,25 @@
                 <zul:button id="previousButton"
                             label="←"
                             onClick="@command('previousPage')"
-                            disabled="false"
+                            disabled="@bind(galleryVm.previousButtonDisabled)"
                             style="background-color: #343a40; color: #fff; border-color: #343a40;"/>
                 <zul:label
-                        value="@bind(galleryVm.currentPageIndex)" />
+                        value="@bind(galleryVm.currentPageIndex)"
+                        style="color: #14100F;
+                                   background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+                                   font-family: 'Garamond', serif;
+                                   font-size: 24px;
+                                   font-weight: bold;
+                                   text-transform: uppercase;
+                                   text-align: center;
+                                   margin-bottom: auto;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
+                                   padding: 0px;" />
                 <zul:button id="nextButton"
                             label="→"
                             onClick="@command('nextPage')"
-                            visible="true"
+                            disabled="@bind(galleryVm.nextButtonDisabled)"
                             style="background-color: #343a40; color: #fff; border-color: #343a40;"/>
 
             </div>

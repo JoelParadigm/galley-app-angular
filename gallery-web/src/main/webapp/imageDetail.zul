@@ -3,8 +3,6 @@
 
 <zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
     <xh:div self="@{define(pageContent)}" viewModel="@id('imgDetailVm') @init('com.example.vm.ImageDetailVm')">
-        <zul:label id="log" style="color: red;" value="@bind(imgDetailVm.log)" multiline="true"/>
-
         <div class="container d-flex flex-column align-items-center"
              style="text-align: center;
                     background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
