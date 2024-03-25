@@ -1,0 +1,96 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul"?>
+<?page complete="true"?>
+
+<zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
+    <xh:div self="@{define(pageContent)}" viewModel="@id('imgDetailVm') @init('com.example.vm.ImageDetailVm')">
+        <zul:label id="log" style="color: red;" value="@bind(imgDetailVm.log)" multiline="true"/>
+
+        <div class="container d-flex flex-column align-items-center"
+             style="text-align: center;
+                    background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+
+            <!-- Title Row -->
+            <div class="row mb-3">
+                <zul:label value="@bind(imgDetailVm.image.name)"
+                           style="color: #14100F;
+                                  font-family: 'Garamond', serif;
+                                  font-size: 36px;
+                                  font-weight: bold;
+                                  text-transform: uppercase;" />
+            </div>
+
+            <!-- Upload Date Row -->
+            <div class="row mb-3">
+                <zul:label value="${imgDetailVm.reformatTime(imgDetailVm.image.uploadDate)}"
+                           style="color: #fff;
+                                  font-size: 16px;
+                                  font-family: 'Arial', sans-serif;
+                                  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+                                  letter-spacing: 1px;
+                                  text-transform: uppercase;" />
+            </div>
+
+            <!-- Image Row -->
+            <div class="row">
+                <div style="background: linear-gradient(to right, #ea625b, #ea865b);
+                            border-radius: 10px;
+                            overflow: hidden;">
+                    <zul:image content="@bind(imgDetailVm.convertToAImage(imgDetailVm.image.imageData))"
+                               style="max-width: 100%;
+                                      max-height: 100%;" />
+                </div>
+            </div>
+
+            <!-- Hashtags -->
+            <zul:hlayout style="margin-top: 10px;">
+                <zul:forEach items="@load(imgDetailVm.image.hashtags)">
+                    <zul:label value="#${forEachStatus.current.name}"
+                               style="color: #520b25;
+                                      margin-left: 5px;
+                                      font-style: italic;
+                                      font-weight: bold;
+                                      font-size: 14px;
+                                      letter-spacing: 1px;
+                                      text-decoration: none;
+                                      cursor: pointer;"
+                               onClick="@command('filterByTag', hashtag=self.value)" />
+                </zul:forEach>
+            </zul:hlayout>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col">
+                        <!-- Empty column to fill space -->
+                    </div>
+                    <div class="col-auto align-self-center">
+                        <zul:button label="Edit Image Detail" onClick="@command('editImage')" style="background-color: #343a40; color: #fff; border-color: #343a40;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Description -->
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col">
+                    <div style="background: linear-gradient(to right, #faf2fd, #fcf0e9, #fcebe9, #fcf0e9, #faf2fd);
+                        border-radius: 5px;
+                        padding: 20px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+
+                        <zul:label value="@bind(imgDetailVm.image.description)"
+                                   multiline="true"
+                                   style="color: #14100F;
+                                  font-family: Georgia, serif;
+                                  font-size: 16px;
+                                  text-align: justify;
+                                  line-height: 1.6;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </xh:div>
+</zk>

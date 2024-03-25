@@ -1,0 +1,96 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="./templates/master-template.zul"?>
+<?page complete="true"?>
+
+<zk xmlns="native" xmlns:xh="xhtml" xmlns:sh="shadow" xmlns:zul="http://www.zkoss.org/2005/zul">
+    <xh:div self="@{define(pageContent)}" viewModel="@id('updateVm') @init('com.example.vm.UpdateImageVm')">
+        <style>
+            .custom-background {
+            background: linear-gradient(to right, #f5e4f8, #f5d9f7);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            }
+            .textbox-style {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background-color: transparent;
+            color: #333;
+            margin-bottom: 10px;
+            }
+            .button-style {
+            background-color: #454545;
+            color: #ececec;
+            border-color: #505050;
+            margin: 5px;
+            }
+            .label-style {
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: left;
+            padding-left: 5px;
+            }
+            .log-style {
+            color: red;
+            }
+            .image-container {
+            background: linear-gradient(to right, #ea625b, #ea865b);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            text-align: center;
+            }
+        </style>
+
+        <div class="container-fluid custom-background">
+            <label class="label-style">The Title:</label>
+            <zul:textbox value="@bind(updateVm.image.name)" placeholder="Enter the title for your picture"
+                         maxlength="100" class="textbox-style"/>
+        </div>
+
+        <div class="container-fluid custom-background">
+            <label class="label-style">The Description:</label>
+            <zul:textbox value="@bind(updateVm.image.description)" placeholder="Enter the description for the image"
+                         maxlength="500" class="textbox-style"/>
+        </div>
+
+        <div class="container-fluid custom-background">
+            <label class="label-style">The Tags:</label>
+
+            <zul:textbox value="@bind(updateVm.tagUserInput)" placeholder="Enter image tags" maxlength="100"
+                         class="textbox-style"/>
+            <div class="col">
+                <zul:button label="Commit Tags" onClick="@command('commitTags')" class="button-style"/>
+            </div>
+            <div class="image-container">
+                <zul:label value="@bind(updateVm.formattedTagNames)" class="label-style"
+                           style="color: #ececec;
+                                  font-size: 16px;
+                                  font-family: 'Arial', sans-serif;
+                                  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+                                  letter-spacing: 1px; "/>
+            </div>
+        </div>
+
+        <zul:label id="log" value="@bind(updateVm.log)" class="log-style" multiline="true"/>
+
+        <div class="container-fluid custom-background">
+            <div class="col" style = "text-align: center;">
+                <zul:button label="Save Changes" onClick="@command('saveChanges')" class="button-style"/>
+                <zul:button label="Cancel" onClick="@command('cancel')" class="button-style"/>
+                <zul:button label="Delete Image" onClick="@command('deleteImage')" class="button-style"/>
+            </div>
+
+            <div class="image-container">
+                <zul:image content="@bind(updateVm.convertToAImage(updateVm.image.imageData))"
+                           style="max-width: 100%; max-height: 100%;"/>
+            </div>
+
+        </div>
+    </xh:div>
+</zk>
