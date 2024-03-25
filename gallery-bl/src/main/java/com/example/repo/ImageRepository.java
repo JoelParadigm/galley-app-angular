@@ -27,6 +27,9 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
             "WHERE i.id IN :imageIds")
     List<Object[]> findAllImageIdHashtagByImageIds(@Param("imageIds") List<Long> imageIds);
 
+//    List<Object[]> findObjects(Specification<Object[]> spec);
 
     Page<ImageEntity> findAll(Specification<ImageEntity> spec, Pageable pageable);
+
+
 }

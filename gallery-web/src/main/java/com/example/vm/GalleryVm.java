@@ -67,7 +67,7 @@ public class GalleryVm {
 
     @Command
     @NotifyChange("log")
-    public void updateLog(@BindingParam("hashtag") String hashtag) {
+    public void searchByTag(@BindingParam("hashtag") String hashtag) {
         String hashtagNameToSearchBy = hashtag.substring(1);
         // reikia apsisaugoti nuo sql injectionu
         log = "hashtag: " + hashtagNameToSearchBy;
@@ -112,10 +112,17 @@ public class GalleryVm {
     }
 
     @Command
-    @NotifyChange({"searchTitle", "searchDescription", "searchTags"})
+    @NotifyChange({"searchTitle", "searchDescription", "searchTags", "allImages", "currentPageIndex"})
     public void searchByCriteria(){
+        System.out.printf("test0");
         List<String> tags = tagService.getCorrectTagsFromUserInput(searchTags);
-        System.out.println("description: "+searchDescription+" title: "+searchTitle+"tagnames: "+searchTags+" num of tags: "+tags.size());
+        System.out.printf("test1");
+        System.out.println(
+                "description: " + (searchDescription != null ? searchDescription : "null") +
+                        " title: " + (searchTitle != null ? searchTitle : "null") +
+                        " tagnames: " + (searchTags != null ? searchTags : "null") +
+                        " num of tags: " + (tags != null ? tags.size() : "null")
+        );
         criteria.setTagNames(tags);
         criteria.setDescription(searchDescription);
         criteria.setImageTitle(searchTitle);
