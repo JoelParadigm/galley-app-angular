@@ -184,7 +184,7 @@
                 <zul:label
                         value="@bind(galleryVm.currentPageIndex)"
                         style="color: #14100F;
-                                   background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+                                   background: linear-gradient(to right, #efd9ac, #f7edd7, #fbf7ec);
                                    font-family: 'Garamond', serif;
                                    font-size: 24px;
                                    font-weight: bold;

@@ -67,7 +67,7 @@ public class GalleryVm {
     }
 
     @Command
-    @NotifyChange({"log", "allImages", "currentPageIndex"})
+    @NotifyChange({"log", "allImages", "currentPageIndex", "nextButtonDisabled", "previousButtonDisabled"})
     public void searchByTag(@BindingParam("hashtag") String hashtag) {
         List<String> tags = new ArrayList<>();
         String hashtagNameToSearchBy = hashtag.substring(1);
@@ -117,7 +117,7 @@ public class GalleryVm {
 
 
     @Command
-    @NotifyChange({"searchTitle", "searchDescription", "searchTags", "allImages", "currentPageIndex"})
+    @NotifyChange({"searchTitle", "searchDescription", "searchTags", "allImages", "currentPageIndex", "nextButtonDisabled", "previousButtonDisabled"})
     public void searchByCriteria(){
         System.out.printf("test0");
         List<String> tags = tagService.getCorrectTagsFromUserInput(searchTags);
