@@ -7,6 +7,7 @@ import com.example.entities.ImageEntity;
 import com.example.repo.HashtagRepository;
 import com.example.repo.ImageRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,6 +37,7 @@ public class GalleryService {
     }
 
 
+    @Transactional
     public ImageDto getImageById(Long id) {
         System.out.println();
         if (id == null) {
@@ -44,7 +46,7 @@ public class GalleryService {
 
         ImageEntity imageEntity = imageRepository.findById(id).orElse(null);
         if (imageEntity != null) {
-            imageEntity.getHashtags().size();
+
             return ImageDto.of(imageEntity);
         }
         return null;
