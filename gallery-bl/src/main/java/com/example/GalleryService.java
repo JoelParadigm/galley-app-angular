@@ -7,7 +7,6 @@ import com.example.entities.ImageEntity;
 import com.example.repo.HashtagRepository;
 import com.example.repo.ImageRepository;
 import lombok.AllArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -52,9 +51,12 @@ public class GalleryService {
         return null;
     }
 
+    @Transactional
     public Long saveOrUpdateImage(ImageDto imageDto) {
 
-        ImageEntity image = imageDto.getId() != null ? imageRepository.findById(imageDto.getId()).get(): new ImageEntity();
+        ImageEntity image = imageDto.getId() != null ?
+                imageRepository.findById(imageDto.getId()).get()
+                : new ImageEntity();
         image.setName(imageDto.getName());
         image.setDescription(imageDto.getDescription());
         image.setUploadDate(imageDto.getUploadDate());
@@ -67,6 +69,7 @@ public class GalleryService {
 
     private Set<HashtagEntity> getAndUpdateHashtags(Set<HashtagNameDto> hashtagNames){
 
+        if(hashtagNames.isEmpty()) return new HashSet<>();
         List<String> hashtagNameStrings = hashtagNames.stream()
                 .map(HashtagNameDto::getName)
                 .collect(Collectors.toList());

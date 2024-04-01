@@ -3,7 +3,6 @@ package com.example.search;
 import com.example.dto.HashtagNameDto;
 import com.example.dto.ImageThumbnailDto;
 import com.example.dto.SearchCriteria;
-import com.example.entities.HashtagEntity;
 import com.example.entities.ImageEntity;
 import com.example.repo.ImageRepository;
 import com.example.search.specifications.ImageSpecification;
@@ -14,10 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +22,6 @@ import java.util.Set;
 public class SearchService {
 
     private final ImageRepository imageRepository;
-//  ImageSpecification
 
     public Page<ImageThumbnailDto> searchImages(SearchCriteria criteria, Pageable pageable) {
         Specification<ImageEntity> spec = ImageSpecification.buildSpecification(criteria);

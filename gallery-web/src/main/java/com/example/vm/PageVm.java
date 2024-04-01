@@ -101,12 +101,11 @@ public class PageVm {
                 title = imageService.catNameGenerator();
             }
             imageDescription = imageService.normalizeString(imageDescription);
-            sizeLabelText = String.format("Image Information - Size: %d bytes, Title: %s\n", imageSize, title);
-            sizeLabelText += String.format("Number of tags: %d\n", tags.size());
-            sizeLabelText += String.format("Description length: %d\n", imageDescription.length());
             Set<HashtagNameDto> hashtagset = new HashSet<>();
-            for(String s : tags){
-                hashtagset.add(new HashtagNameDto(null, s));
+            if(tags != null && !tags.isEmpty()){
+                for(String s : tags){
+                    hashtagset.add(new HashtagNameDto(null, s));
+                }
             }
             ImageDto imageDto = new ImageDto(null,
                                             title,
