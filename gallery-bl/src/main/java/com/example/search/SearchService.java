@@ -25,7 +25,7 @@ public class SearchService {
 
     public Page<ImageThumbnailDto> searchImages(SearchCriteria criteria, Pageable pageable) {
         Specification<ImageEntity> spec = ImageSpecification.buildSpecification(criteria);
-        Page<ImageThumbnailDto> page = getCurrentPage_iId_iName_iThumbnail(criteria, spec, pageable);
+        Page<ImageThumbnailDto> page = getCurrentPage_iId_iName_iThumbnail(spec, pageable);
         Map<Long, Set<HashtagNameDto>> map = getMapOf_iId_to_TagsList(page);
         for (ImageThumbnailDto dto : page)
             dto.setHashtags(map.get(dto.getId()));
@@ -34,7 +34,6 @@ public class SearchService {
     }
 
     private Page<ImageThumbnailDto> getCurrentPage_iId_iName_iThumbnail(
-        SearchCriteria criteria,
         Specification<ImageEntity> spec,
         Pageable pageable
     ){
@@ -50,7 +49,5 @@ public class SearchService {
 
     private List<Object[]> findAll_iId_hId_hName(List<Long> imageIds) {
         return imageRepository.findAllImageIdHashtagByImageIds(imageIds);
-//        Specification<Object[]> spec = ImageSpecification.findAll_iId_hId_hName(imageIds);
-//        return imageRepository.findObjects(spec);
     }
 }

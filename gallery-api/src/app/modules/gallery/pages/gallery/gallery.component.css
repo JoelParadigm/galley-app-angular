@@ -1,0 +1,108 @@
+.image-container {
+  border: 2px solid black;
+}
+
+.display-container {
+  border: 1px solid gray;
+  background-color: #faf2fd;
+  height: 365px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.image-title-label {
+  color: #14100F;
+  background: linear-gradient(to right, #E79281, #CB5A43, #EC765F);
+  font-family: 'Garamond', serif;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: auto;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 0px;
+}
+
+.image-style {
+  max-width: 100%;
+  max-height: 100%;
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: 2px;
+}
+
+.button-style {
+  background-color: #343a40;
+  color: #fff;
+  border-color: #343a40;
+}
+
+.disabled-button-style {
+  background-color: #ddd;
+  color: #999;
+  border-color: #ddd;
+}
+
+.arrow-down {
+  transform: rotate(0deg);
+  transition: all 0.3s ease;
+}
+.arrow-up {
+  transform: rotate(180deg);
+  transition: all 0.3s ease;
+}
+
+.collapsedContent {
+  display: none;
+}
+
+.expandedContent {
+  display: block;
+}
+
+.collapsible-arrow {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-left: 5px;
+}
+
+.label-style {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.textbox-style {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: transparent;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.custom-background {
+  background: linear-gradient(to right, #f5e4f8, #f5d9f7);
+  border-radius: 2px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: all 0.3s ease; /* Add transition effect for smoother animation */
+}

@@ -52,6 +52,4 @@ public class ImageSpecification {
             return root.get("id").in(imageIds);
         };
     }
-
-
 }

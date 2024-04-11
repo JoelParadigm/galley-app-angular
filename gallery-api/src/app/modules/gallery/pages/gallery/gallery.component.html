@@ -1,0 +1,76 @@
+
+<!-- The Drop Down Arrow -->
+<div class="row">
+  <div class="col d-flex align-items-center">
+    <label class="label-style mb-0">Filter</label>
+    <div class="collapsible-arrow arrow-down ml-2"
+         onclick="toggleCollapsible()"
+         [class.arrow-down]="isCollapsed"
+         [class.arrow-up]="!isCollapsed">
+      <span>&#9660;</span> <!-- Unicode down arrow character -->
+    </div>
+  </div>
+</div>
+
+<!-- The Drop Down Filter Fields -->
+<div [class.collapsedContent]="isCollapsed"
+     [class.expandedContent]="!isCollapsed">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <label class="label-style">Description:</label>
+<!--        <input [(ngModel)]="filterByDescription" placeholder="Search by description" class="search-input">-->
+      </div>
+      <div class="col">
+        <label class="label-style">Name:</label>
+<!--        <input [(ngModel)]="filterByName" placeholder="Search by name" class="search-input">-->
+      </div>
+      <div class="col">
+        <label class="label-style">Tags:</label>
+<!--        <input [(ngModel)]="filterByTags" placeholder="Search by tags" class="search-input">-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto align-self-center">
+        <button (click)="doSearch()" class="search-button">Search</button>
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  @for (image of images; track image.id){
+    <div class="col-12 col-md-6 col-lg-3 mb-4">
+      <div class="display-container">
+        <p>image id : {{ image.id }}</p>
+        <p>image name : {{ image.name }}</p>
+        <div class="image-container">
+          <img ngSrc="this.imageUtils.blobToSafeUrl(image.imageData)" alt="gallery image" fill>
+        </div>
+        <p>
+          @for (tag of image.hashtags; track tag.id){
+            #{{ tag.name }}
+          }
+        </p>
+      </div>
+
+    </div>
+  }
+</div>
+
+<div class ="row">
+  <div class="col-auto align-self-center">
+    <button id="previousButton"
+            [class.button-style]="canGoToPreviousPage"
+            [class.disabled-button-style]="!canGoToPreviousPage">←</button>
+    <label>{{ this.page + 1 }} | {{ this.lastPage }}</label>
+    <button id="nextButton"
+            [class.button-style]="canGoToNextPage"
+            [class.disabled-button-style]="!canGoToNextPage">→</button>
+  </div>
+  <div class="col">
+    <!-- Empty column to fill space -->
+  </div>
+</div>
+
