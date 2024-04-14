@@ -2,11 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./modules/gallery/gallery.module')
-      .then(m => m.GalleryModule)
-  }
+  { path: 'gallery', loadChildren: () => import('./modules/gallery/gallery.module').then(m => m.GalleryModule) },
+  { path: '', redirectTo: 'gallery', pathMatch: 'full' }
 ];
 
 @NgModule({

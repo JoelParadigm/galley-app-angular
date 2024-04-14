@@ -1,0 +1,14 @@
+.button-style {
+  background-color: #f08eb4;
+  padding: 8px 16px;
+  border: none; /* Remove button border */
+  border-radius: 4px;
+  color: #ffffff; /* Set text color to white */
+  margin: 0 2px; /* Adds 4px margin on left and right */
+  cursor: pointer;
+}
+
+.container {
+  background-color: #faf2fd;
+  margin: 10px;
+}

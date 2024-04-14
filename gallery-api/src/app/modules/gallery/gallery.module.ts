@@ -10,4 +10,8 @@ import {FormsModule} from "@angular/forms";
     FormsModule
   ]
 })
-export class GalleryModule { }
+export class GalleryModule {
+  constructor() {
+    console.log("gallery module loaded")
+  }
+}

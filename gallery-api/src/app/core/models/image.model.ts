@@ -5,7 +5,6 @@ export interface ImageModel {
   name: string;
   description: string;
   uploadDate: Date;
-  imageData: Blob;
-  imageThumbnail: Blob;
+  imageData: string;
   hashtags: TagModel[];
 }

@@ -3,12 +3,20 @@ import { ImageDisplayModel } from "../../../../core/models/image_thumbnail.model
 import { GalleryService } from "../../../../core/services/gallery.service";
 import { PageModel } from "../../../../core/models/page.model";
 import { ImageUtils } from "../../../../shared/components/image_display.component";
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import {NgOptimizedImage} from "@angular/common";
+import {Router, RouterLink, UrlTree} from "@angular/router";
 
 @Component({
   selector: 'app-explore-page',
   templateUrl: './gallery.component.html',
-  styleUrl: './gallery.component.css'
+  styleUrl: './gallery.component.css',
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgOptimizedImage,
+    RouterLink,
+  ],
 })
 export class GalleryPageComponent implements OnInit {
   images: ImageDisplayModel[] | undefined;
@@ -35,24 +43,38 @@ export class GalleryPageComponent implements OnInit {
     if (this.filterByDescription || this.filterByTags || this.filterByName) {
       this.galleryService.searchImages(this.filterByDescription, this.filterByTags, this.filterByName, page, this.pageSize)
         .subscribe((response: PageModel) => {
-          this.images = response.content
+          this.images = response.content;
           this.lastPage = response.totalPages - 1;
+          this.updateNavigationVariables();
         });
     } else {
       this.galleryService.getAllImages(page, this.pageSize)
         .subscribe((response: PageModel) => {
-          this.images = response.content
+          this.images = response.content;
           this.lastPage = response.totalPages - 1;
-
+          this.updateNavigationVariables();
         });
     }
+
+  }
+
+  public updateNavigationVariables():void{
     // update page navigation variables
     this.canGoToPreviousPage = this.page > 0;
     this.canGoToNextPage = this.page < this.lastPage;
+    console.log("page: "+this.page + " lastPage: "+this.lastPage)
+    console.log("can go prev page: " +this.canGoToPreviousPage)
+    console.log("can go next page: " +this.canGoToNextPage)
   }
 
   doSearch(): void {
     this.fetchPage(0);
+    console.log("searching; description: "
+      + this.filterByDescription
+      + " name:"
+      + this.filterByName
+      + " tags: "
+      + this.filterByTags)
   }
 
   isCollapsed = true;
@@ -61,13 +83,46 @@ export class GalleryPageComponent implements OnInit {
   }
 
   goToPreviousPage(): void {
+    console.log("prev button pressed: " + this.canGoToPreviousPage);
     if (this.canGoToPreviousPage) {
-      this.fetchPage(this.page - 1);
+      this.page -=1;
+      console.log("loading page nr:" + this.page);
+      this.fetchPage(this.page);
     }
   }
   goToNextPage(): void {
+    console.log("next button pressed: " + this.canGoToNextPage);
     if (this.canGoToNextPage) {
-      this.fetchPage(this.page + 1);
+      this.page+=1;
+      console.log("loading page nr:" + this.page);
+      this.fetchPage(this.page);
     }
+  }
+
+  constructor(private router: Router) {
+    console.log("gallery page model loaded")
+  }
+
+  getImageDataType(image: any): string {
+    if (image && image.imageData) {
+      return typeof image.imageData;
+    } else {
+      return 'Unknown'; // Default or error handling
+    }
+  }
+
+  convertBlobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  print(message:string){
+    console.log(message);
   }
 }

@@ -1,11 +1,18 @@
 <header class="container">
   <div class="row">
     <div class="col-md-6 text-right">
-      <button class="btn btn-primary" (click)="handleClickButton1()">Gallery</button>
-      <button class="btn btn-primary ml-2" (click)="handleClickButton2()">Upload</button>
-    </div>
-    <div class="col-md-6">
-      <p>Button type: {{ log_temp }}</p>
+      <button
+        [routerLink]="'.'"
+        class="button-style"
+        (click)="handleClickButton1()">
+          Gallery
+      </button>
+      <button
+        [routerLink]="'gallery/'+'upload'"
+        class="button-style"
+        (click)="handleClickButton2()">
+          Upload
+      </button>
     </div>
   </div>
 </header>

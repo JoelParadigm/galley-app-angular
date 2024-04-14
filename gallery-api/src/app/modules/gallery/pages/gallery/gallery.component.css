@@ -1,6 +1,20 @@
 .image-container {
-  border: 2px solid black;
+  position: relative;
+  width: 100%;
+  max-height: 300px; /* Maximum height for the image container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #f8f9fa;
 }
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Fit the image within the container without cropping */
+}
+
 
 .display-container {
   border: 1px solid gray;
@@ -35,16 +49,50 @@
   margin-bottom: 2px;
 }
 
+/* Base Button Styles */
+.button-style,
+.disabled-button-style {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Primary Button Style */
 .button-style {
   background-color: #343a40;
   color: #fff;
   border-color: #343a40;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
+.button-style:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Disabled Button Style */
 .disabled-button-style {
   background-color: #ddd;
   color: #999;
+  cursor: not-allowed;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Disabled Button Hover (No effect) */
+.disabled-button-style:hover {
+  background-color: #ddd;
   border-color: #ddd;
+  color: #999;
 }
 
 .arrow-down {

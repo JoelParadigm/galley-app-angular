@@ -23,6 +23,7 @@ export class GalleryService {
     .set('name', name)
     .set('page', page.toString())
     .set('size', size.toString());
+    console.log('Requesting URL:', `${this.baseUrl}/images/search?${params.toString()}`);
     return this.http.get<PageModel>(`${this.baseUrl}/images/search`, { params });
   }
 

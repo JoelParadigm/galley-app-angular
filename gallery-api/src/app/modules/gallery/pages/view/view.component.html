@@ -1,0 +1,23 @@
+<div class="image-details-container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="image-title-label text-center flex-grow-1">
+      <div class="image-name">{{ image?.name }}</div>
+      <div class="date">{{ date }}</div>
+    </div>
+    <button class="edit-button" [routerLink]="'../../edit/' + image?.id">✎edit</button>
+  </div>
+
+  <div class="image-container">
+    <img [src]="imageUrl" alt="gallery image">
+  </div>
+
+
+  <div class="hashtags">
+    @for(tag of image?.hashtags; track tag.id){
+      <span class="hashtag">#{{ tag.name }} </span>
+    }
+  </div>
+</div>
+<div class="description-container">
+  <div class="description">{{ image?.description }}</div>
+</div>
