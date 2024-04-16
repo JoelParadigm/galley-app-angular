@@ -19,6 +19,7 @@ public class GalleryService {
 
     private final HashtagRepository hashtagRepository;
     private final ImageRepository imageRepository;
+    private final ImageService imageService;
 
     public List<HashtagEntity> getAllHashtags() {
         return hashtagRepository.findAll();
@@ -61,7 +62,10 @@ public class GalleryService {
         image.setDescription(imageDto.getDescription());
         image.setUploadDate(imageDto.getUploadDate());
         image.setImageData(imageDto.getImageData());
-        image.setImagethumbnail(imageDto.getImageThumbnail());
+        if(imageDto.getImageThumbnail() != null)
+            image.setImagethumbnail(imageDto.getImageThumbnail());
+        else
+            image.setImagethumbnail(imageService.generateThumbnail(imageDto.getImageData(), 400, 400));
         image.setHashtags(getAndUpdateHashtags(imageDto.getHashtags()));
 
         return saveImage(image).getId();

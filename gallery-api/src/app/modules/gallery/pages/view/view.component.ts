@@ -38,6 +38,7 @@ export class ViewPageComponent implements OnInit {
         this.image = image;
         // @ts-ignore
         this.imageUrl = this.imageUtils.base64ToSafeUrl(this.image.imageData, 'image/jpeg');
+        // @ts-ignore
         this.date = this.image.uploadDate.toString().split('T')[0];
       }
     );

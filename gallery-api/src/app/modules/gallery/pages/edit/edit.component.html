@@ -1,4 +1,38 @@
-<p>edit works!</p>
-<div class="image-container">
-  <img [src]="imageUrl" alt="gallery image">
+<div class="container-fluid custom-background">
+    <label class="label-style">The Description:</label>
+    <input type="text" [(ngModel)]="description"
+           placeholder="Enter picture description..."
+           maxlength="500" class="textbox-style">
 </div>
+<div class="container-fluid custom-background">
+  <label class="label-style">The Title:</label>
+  <input type="text" [(ngModel)]="title" placeholder="Enter picture title..."
+         placeholder="Enter picture description..."
+         maxlength="100" class="textbox-style">
+</div>
+<div class="container-fluid custom-background">
+  <label class="label-style">The Tags:</label>
+  <input type="text" [(ngModel)]="tagsString" placeholder="Enter picture tags..."
+         placeholder="Enter picture description..."
+         maxlength="100" class="textbox-style">
+  <button (click)="CommitTags()" class="button-style">⤥ commit tags</button>
+  <div class="image-container">
+    @for(tag of tags; track tag.id){
+      <span class="formatted-tags">#{{ tag.name }} </span>
+    }
+  </div>
+</div>
+
+<div class="container-fluid custom-background">
+  <div class="col" style = "text-align: center;">
+    <button [routerLink]="'../../view/' + image?.id"
+            class="button-style">↺ Cancel</button>
+    <button (click)="SaveChanges()" class="button-style">🖫 Save changes</button>
+    <button (click)="DeleteImage()" class="button-style">☒ Delete image</button>
+  </div>
+  <div class="image-container">
+    <img [src]="imageUrl" alt="gallery image">
+  </div>
+</div>
+
+

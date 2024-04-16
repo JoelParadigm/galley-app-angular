@@ -1,1 +1,11 @@
 <p>upload works!</p>
+
+<div class="file-upload">
+  <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+</div>
+
+@if(file){
+
+<img [src]="file" alt="Image" class="img-fluid">
+
+}

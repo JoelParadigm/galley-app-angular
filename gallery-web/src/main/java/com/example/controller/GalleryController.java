@@ -63,6 +63,7 @@ public class GalleryController {
 
     @GetMapping("/images/view")
     public ResponseEntity<ImageDto> getImage(@RequestParam(required = true) String imageId){
+        System.out.println("this is getting a image");
         try {
             long id = Long.parseLong(imageId);
             ImageDto image = galleryService.getImageById(id);
@@ -76,13 +77,15 @@ public class GalleryController {
         }
     }
 
-    @GetMapping("/images/save")
-    public ResponseEntity<ImageDto> saveImage(@RequestParam(required = true) ImageDto image){
-            galleryService.saveOrUpdateImage(image);
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/images/save")
+    public ResponseEntity<ImageDto> saveImage(@RequestBody ImageDto image){
+        System.out.println("savvvv");
+        System.out.println("Image saved in rest"+image);
+        galleryService.saveOrUpdateImage(image);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/images/delete")
+    @DeleteMapping("/images/delete")
     public ResponseEntity<ImageDto> deleteImage(@RequestParam(required = true) long imageId){
         galleryService.deleteImageById(imageId);
         return new ResponseEntity<>(HttpStatus.OK);

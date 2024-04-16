@@ -1,10 +1,10 @@
 import {TagModel} from "./tag.model";
 
 export interface ImageModel {
-  id: number;
+  id: number | null;
   name: string;
-  description: string;
-  uploadDate: Date;
+  description: string | null;
+  uploadDate: Date | null;
   imageData: string;
   hashtags: TagModel[];
 }

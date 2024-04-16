@@ -30,11 +30,13 @@ export class GalleryService {
   public getImage(id: number): Observable<ImageModel> {
     return this.http.get<ImageModel>(`${this.baseUrl}/images/view?imageId=${id}`);
   }
-  public addImage(image: ImageModel): Observable<ImageModel> {
+  public addImage(image: ImageModel | undefined): Observable<ImageModel> {
+    console.log('addImage', image);
+    console.log('Requesting URL:', `${this.baseUrl}/images/save`, image);
     return this.http.post<ImageModel>(`${this.baseUrl}/images/save`, image);
   }
 
-  public deleteImage(id: number): Observable<void> {
+  public deleteImage(id: number | null): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/images/delete?imageId=${id}`);
   }
 }

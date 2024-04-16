@@ -98,28 +98,8 @@ export class GalleryPageComponent implements OnInit {
       this.fetchPage(this.page);
     }
   }
-
   constructor(private router: Router) {
     console.log("gallery page model loaded")
-  }
-
-  getImageDataType(image: any): string {
-    if (image && image.imageData) {
-      return typeof image.imageData;
-    } else {
-      return 'Unknown'; // Default or error handling
-    }
-  }
-
-  convertBlobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-      reader.readAsDataURL(blob);
-    });
   }
 
   print(message:string){
