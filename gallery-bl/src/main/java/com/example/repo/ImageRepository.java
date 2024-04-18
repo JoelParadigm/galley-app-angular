@@ -21,7 +21,7 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
     Optional<ImageEntity> findById(@NotNull Long id);
 
-    @Query("SELECT i.id, h.id, h.name " +
+    @Query(value = "SELECT i.id, h.id, h.name " +
             "FROM Image i " +
             "JOIN i.hashtags h " +
             "WHERE i.id IN :imageIds")
@@ -29,7 +29,5 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Long> {
 
 //    List<Object[]> findObjects(Specification<Object[]> spec);
 
-    Page<ImageEntity> findAll(Specification<ImageEntity> spec, Pageable pageable);
-
-
+    Page<ImageEntity> findAll(Specification<ImageEntity> spec, Pageable pageable);//projection
 }

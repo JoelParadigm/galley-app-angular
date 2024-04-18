@@ -8,7 +8,12 @@ import com.example.dto.ImageThumbnailDto;
 import com.example.dto.SearchCriteria;
 import com.example.entities.HashtagEntity;
 import com.example.search.SearchService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/gallery")
 @AllArgsConstructor
+@CommonsLog
 public class GalleryController {
 
     private final SearchService searchService;
@@ -78,10 +86,21 @@ public class GalleryController {
     }
 
     @PostMapping("/images/save")
-    public ResponseEntity<ImageDto> saveImage(@RequestBody ImageDto image){
+    public ResponseEntity<ImageDto> saveImage(@RequestBody String json){
         System.out.println("savvvv");
-        System.out.println("Image saved in rest"+image);
-        galleryService.saveOrUpdateImage(image);
+        // Deserialize JSON manually for debugging
+        
+        System.out.println("Received JSON Body:");
+        System.out.println(json);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            ImageDto imageDto = objectMapper.readValue(json, ImageDto.class);
+            System.out.println("Parsed ImageDto: " + imageDto);
+            galleryService.saveOrUpdateImage(imageDto);
+        } catch (IOException e) {
+            log.error("Error while saving :", e);
+        }
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -99,5 +118,11 @@ public class GalleryController {
     {
         List<String> tags = tagService.getCorrectTagsFromUserInput(unparsed_tags);
         return new SearchCriteria(searchTitle, description, tags);
+    }
+    
+    private ImageDto mapJsonToImageDto(String json){
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        
+        return null;
     }
 }

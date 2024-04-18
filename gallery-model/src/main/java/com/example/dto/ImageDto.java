@@ -1,6 +1,9 @@
 package com.example.dto;
 
+import com.example.deserializer.LocalDateTimeDeserializer;
 import com.example.entities.ImageEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -10,10 +13,12 @@ import java.util.stream.Collectors;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ImageDto {
     private Long id;
     private String name;
     private String description;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime uploadDate;
     private byte[] imageData;
     private byte[] imageThumbnail;

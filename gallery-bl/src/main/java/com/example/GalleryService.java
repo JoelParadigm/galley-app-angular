@@ -54,7 +54,6 @@ public class GalleryService {
 
     @Transactional
     public Long saveOrUpdateImage(ImageDto imageDto) {
-
         ImageEntity image = imageDto.getId() != null ?
                 imageRepository.findById(imageDto.getId()).get()
                 : new ImageEntity();

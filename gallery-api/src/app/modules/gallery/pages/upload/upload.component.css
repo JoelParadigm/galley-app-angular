@@ -4,17 +4,50 @@
   align-items: center;
 }
 
-.drag-drop-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 150px;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  cursor: pointer;
+.input{
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.drag-drop-area p {
-  margin: 0;
+.image-container {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: transparent;
+  color: #333;
+}
+
+.label-style {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.textbox-style {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: transparent;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.button-style {
+  background-color: #454545;
+  color: #ececec;
+  border-color: #505050;
+  margin: 5px;
+  border-radius: 4px;
 }

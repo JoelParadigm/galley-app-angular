@@ -7,6 +7,7 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class HashtagNameDto {
     private Long id;
     private String name;
