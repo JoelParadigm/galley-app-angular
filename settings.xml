@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<servers>
+		<server>
+			<username>maven2</username>
+			<password>maven2</password>
+			<id>releases</id>
+		</server>
+		<server>
+			<username>maven2</username>
+			<password>maven2</password>
+			<id>snapshots</id>
+		</server>
+		<server>
+			<username>maven2</username>
+			<password>maven2</password>
+			<id>external-snapshots</id>
+		</server>
+	</servers>
+	<mirrors>
+		<mirror>
+			<mirrorOf>*</mirrorOf>
+			<name>repo</name>
+			<url>http://build.insoft.dev:8082/nexus/content/repositories/public/</url>
+			<id>repo</id>
+		</mirror>
+		<mirror>
+			<mirrorOf>*</mirrorOf>
+			<name>repo2</name>
+			<url>http://build.insoft.dev:8082/nexus/content/groups/public/</url>
+			<id>repo2</id>
+		</mirror>
+	</mirrors>
+	<profiles>
+		<profile>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>releases</id>
+					<name>libs-release</name>
+					<url>http://build.insoft.dev:8082/nexus/content/repositories/releases/</url>
+				</repository>
+				<repository>
+					<snapshots />
+					<id>snapshots</id>
+					<name>libs-snapshot</name>
+					<url>http://build.insoft.dev:8082/nexus/content/repositories/snapshots/</url>
+				</repository>
+				<repository>
+					<snapshots />
+					<id>thirdparty</id>
+					<name>libs-thirdparty</name>
+					<url>http://build.insoft.dev:8082/nexus/content/repositories/thirdparty/</url>
+				</repository>
+				<repository>
+					<snapshots />
+					<id>external-snapshots</id>
+					<name>libs-external-snapshots</name>
+					<url>http://nexus.insoft.lt:8081/nexus/content/repositories/snapshots/</url>
+				</repository>
+			</repositories>
+			<id>nexus</id>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>nexus</activeProfile>
+	</activeProfiles>
+</settings>
